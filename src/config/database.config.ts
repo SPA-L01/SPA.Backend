@@ -1,27 +1,42 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { ConfigService } from '@nestjs/config';
 import { ParkingLocation } from '../modules/parking-locations/entities/parking-location.entity';
 import { ParkingSlot } from '../modules/parking-locations/entities/parking-slot.entity';
 
-export const databaseConfig: TypeOrmModuleOptions = process.env.DATABASE_URL
-  ? {
+export const getDatabaseConfig = (
+  configService: ConfigService,
+): TypeOrmModuleOptions => {
+  const dbUrl = configService.get<string>('DATABASE_URL');
+  const nodeEnv = configService.get<string>('NODE_ENV', 'development');
+
+  console.log(`[DB Config] NODE_ENV: ${nodeEnv}`);
+
+  if (dbUrl) {
+    // Rút gọn URL để log (ẩn thông tin nhạy cảm)
+    const maskedUrl = dbUrl.replace(/\/\/.*@/, '//****:****@');
+    console.log(`[DB Config] Connecting via DATABASE_URL: ${maskedUrl}`);
+
+    return {
       type: 'postgres',
-      url: process.env.DATABASE_URL,
+      url: dbUrl,
       entities: [ParkingLocation, ParkingSlot],
-      synchronize: false, // Luôn false trong production
-      logging: false,
+      synchronize: false,
+      logging: nodeEnv === 'development',
       ssl: { rejectUnauthorized: false }, // Render yêu cầu SSL
-      migrations: ['dist/migrations/*.js'],
-    }
-  : {
-      type: 'postgres',
-      host: process.env.DB_HOST || 'localhost',
-      port: parseInt(process.env.DB_PORT ?? '5432', 10),
-      username: process.env.DB_USERNAME || 'postgres',
-      password: process.env.DB_PASSWORD || 'password',
-      database: process.env.DB_NAME || 'spa_parking',
-      entities: [ParkingLocation, ParkingSlot],
-      synchronize: process.env.NODE_ENV === 'development',
-      logging: process.env.NODE_ENV === 'development',
-      ssl: false,
-      migrations: ['dist/migrations/*.js'],
     };
+  }
+
+  // Fallback cho local development
+  console.log(`[DB Config] No DATABASE_URL found. Falling back to local config.`);
+  return {
+    type: 'postgres',
+    host: configService.get<string>('DB_HOST', 'localhost'),
+    port: configService.get<number>('DB_PORT', 5432),
+    username: configService.get<string>('DB_USERNAME', 'postgres'),
+    password: configService.get<string>('DB_PASSWORD', 'password'),
+    database: configService.get<string>('DB_NAME', 'spa_parking'),
+    entities: [ParkingLocation, ParkingSlot],
+    synchronize: nodeEnv === 'development',
+    logging: true,
+  };
+};
