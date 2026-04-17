@@ -19,12 +19,14 @@ import { UpdateParkingLocationDto } from './dto/update-parking-location.dto';
 import { ParkingLocationQueryDto } from './dto/parking-location-query.dto';
 import { CreateParkingSlotDto } from './dto/create-parking-slot.dto';
 import { LocationStatus } from './enums/location-status.enum';
+import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
 
 class UpdateStatusDto {
   @IsEnum(LocationStatus)
   status: LocationStatus;
 }
 
+@ApiTags('Parking Locations')
 @Controller('parking-locations')
 export class ParkingLocationsController {
   constructor(private readonly service: ParkingLocationsService) {}
@@ -34,6 +36,8 @@ export class ParkingLocationsController {
    * Lấy danh sách có filter + phân trang
    */
   @Get()
+  @ApiOperation({ summary: 'Lấy danh sách các điểm gửi xe' })
+  @ApiResponse({ status: 200, description: 'Trả về danh sách kết quả kèm phân trang' })
   findAll(@Query() query: ParkingLocationQueryDto) {
     return this.service.findAll(query);
   }
