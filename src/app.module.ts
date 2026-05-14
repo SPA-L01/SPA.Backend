@@ -3,11 +3,13 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { getDatabaseConfig } from './config/database.config';
 import { ParkingLocationsModule } from './modules/parking-locations/parking-locations.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { UserModule } from './modules/user/user.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      isGlobal: true, // Để ConfigService khả dụng ở mọi nơi
+      isGlobal: true,
     }),
     TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
@@ -16,6 +18,8 @@ import { ParkingLocationsModule } from './modules/parking-locations/parking-loca
         getDatabaseConfig(configService),
     }),
     ParkingLocationsModule,
+    UserModule,
+    AuthModule,
   ],
 })
 export class AppModule {}

@@ -1,4 +1,5 @@
 require('dotenv').config();
+require('tsconfig-paths/register');
 import { NestFactory, Reflector } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { ValidationPipe, ClassSerializerInterceptor } from '@nestjs/common';
@@ -16,6 +17,8 @@ async function bootstrap() {
     .setDescription('Tài liệu API cho hệ thống quản lý điểm gửi xe SPA')
     .setVersion('1.0')
     .addTag('Parking')
+    .addTag('Auth')
+    .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api/v1/docs', app, document);
