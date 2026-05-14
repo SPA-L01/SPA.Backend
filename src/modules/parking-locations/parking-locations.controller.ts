@@ -20,6 +20,7 @@ import { ParkingLocationQueryDto } from './dto/parking-location-query.dto';
 import { CreateParkingSlotDto } from './dto/create-parking-slot.dto';
 import { LocationStatus } from './enums/location-status.enum';
 import { ApiTags, ApiOperation, ApiResponse } from '@nestjs/swagger';
+import { Public } from '@modules/auth/decorators/public.decorator';
 
 class UpdateStatusDto {
   @IsEnum(LocationStatus)
@@ -35,6 +36,7 @@ export class ParkingLocationsController {
    * GET /parking-locations
    * Lấy danh sách có filter + phân trang
    */
+  @Public()
   @Get()
   @ApiOperation({ summary: 'Lấy danh sách các điểm gửi xe' })
   @ApiResponse({ status: 200, description: 'Trả về danh sách kết quả kèm phân trang' })
@@ -47,16 +49,19 @@ export class ParkingLocationsController {
    * Tìm điểm gửi xe gần vị trí GPS
    * NOTE: đặt trước /:id để tránh conflict routing
    */
+  @Public()
   @Get('nearby')
   findNearby(
     @Query('lat') lat: string,
     @Query('lng') lng: string,
     @Query('radius') radius?: string,
+    @Query('radiusKm') radiusKm?: string,
   ) {
+    const effectiveRadius = radiusKm ?? radius;
     return this.service.findNearby(
       parseFloat(lat),
       parseFloat(lng),
-      radius ? parseFloat(radius) : 5,
+      effectiveRadius ? parseFloat(effectiveRadius) : 5,
     );
   }
 
@@ -64,6 +69,7 @@ export class ParkingLocationsController {
    * GET /parking-locations/:id
    * Chi tiết 1 điểm (kèm danh sách slots)
    */
+  @Public()
   @Get(':id')
   findOne(@Param('id', ParseUUIDPipe) id: string) {
     return this.service.findOne(id);
@@ -117,6 +123,7 @@ export class ParkingLocationsController {
    * GET /parking-locations/:id/slots
    * Lấy danh sách chỗ đậu của 1 điểm
    */
+  @Public()
   @Get(':id/slots')
   getSlots(@Param('id', ParseUUIDPipe) id: string) {
     return this.service.getSlots(id);
