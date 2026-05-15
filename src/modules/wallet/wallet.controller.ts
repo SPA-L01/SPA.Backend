@@ -4,6 +4,7 @@ import { CurrentUser } from '@modules/auth/decorators/current-user.decorator';
 import { CurrentUser as CurrentUserType } from '@modules/auth/types/current-user.type';
 import { WalletService } from './wallet.service';
 import { TopUpWalletDto } from './dto/top-up-wallet.dto';
+import { CreatePaymentDto } from './dto/create-payment.dto';
 
 @ApiTags('Wallet')
 @ApiBearerAuth()
@@ -27,5 +28,11 @@ export class WalletController {
   @ApiOperation({ summary: 'Mock top-up current user wallet' })
   topUp(@CurrentUser() user: CurrentUserType, @Body() dto: TopUpWalletDto) {
     return this.walletService.topUp(user.id, dto.amount);
+  }
+
+  @Post('me/payment')
+  @ApiOperation({ summary: 'Create a payment (deduct balance)' })
+  createPayment(@CurrentUser() user: CurrentUserType, @Body() dto: CreatePaymentDto) {
+    return this.walletService.createPayment(user.id, dto.amount, dto.note);
   }
 }

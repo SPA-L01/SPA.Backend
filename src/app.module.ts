@@ -6,6 +6,7 @@ import { ParkingLocationsModule } from './modules/parking-locations/parking-loca
 import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/user/user.module';
 import { WalletModule } from './modules/wallet/wallet.module';
+import { SessionsModule } from './modules/sessions/sessions.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { WalletModule } from './modules/wallet/wallet.module';
     ParkingLocationsModule,
     UserModule,
     WalletModule,
+    SessionsModule,
     AuthModule,
   ],
 })
