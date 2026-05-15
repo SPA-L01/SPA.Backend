@@ -5,6 +5,7 @@ import { getDatabaseConfig } from './config/database.config';
 import { ParkingLocationsModule } from './modules/parking-locations/parking-locations.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { UserModule } from './modules/user/user.module';
+import { WalletModule } from './modules/wallet/wallet.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { UserModule } from './modules/user/user.module';
     }),
     ParkingLocationsModule,
     UserModule,
+    WalletModule,
     AuthModule,
   ],
 })

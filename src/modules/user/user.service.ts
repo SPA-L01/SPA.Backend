@@ -3,12 +3,14 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { User } from './entities/user.entity';
 import { CreateUserDto } from './dto/create-user.dto';
+import { WalletService } from '@modules/wallet/wallet.service';
 
 @Injectable()
 export class UserService {
   constructor(
     @InjectRepository(User)
     private readonly userRepo: Repository<User>,
+    private readonly walletService: WalletService,
   ) {}
 
   async create(createUserDto: CreateUserDto): Promise<User> {
@@ -19,7 +21,9 @@ export class UserService {
       throw new BadRequestException('Email already in use');
     }
     const user = this.userRepo.create(createUserDto);
-    return this.userRepo.save(user);
+    const savedUser = await this.userRepo.save(user);
+    await this.walletService.createForUser(savedUser.id);
+    return savedUser;
   }
 
   async findByEmail(email: string): Promise<User | null> {
