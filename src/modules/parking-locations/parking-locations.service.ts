@@ -76,7 +76,7 @@ export class ParkingLocationsService {
       qb.andWhere('loc.hourly_rate <= :max', { max: maxHourlyRate });
     }
 
-    const allowedSort = ['name', 'createdAt', 'hourlyRate', 'availableSlots'];
+    const allowedSort = ['name', 'createdAt', 'hourlyRate', 'availableSlots', 'viewCount'];
     const safeSortBy = allowedSort.includes(sortBy) ? sortBy : 'createdAt';
 
     qb.orderBy(`loc.${safeSortBy}`, sortOrder as 'ASC' | 'DESC')
@@ -124,6 +124,10 @@ export class ParkingLocationsService {
     if (!location) {
       throw new NotFoundException(`Không tìm thấy điểm gửi xe #${id}`);
     }
+    
+    // Increment view count for popularity tracking
+    await this.locationRepo.increment({ id }, 'viewCount', 1);
+    
     return location;
   }
 

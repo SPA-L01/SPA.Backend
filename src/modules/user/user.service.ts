@@ -53,4 +53,9 @@ export class UserService {
       .getOne();
     return user?.hashedRefreshToken ?? null;
   }
+
+  async updateProfile(userId: string, updateDto: any): Promise<User> {
+    await this.userRepo.update({ id: userId }, updateDto);
+    return this.findOneById(userId);
+  }
 }

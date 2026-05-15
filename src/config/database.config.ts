@@ -6,6 +6,7 @@ import { User } from '../modules/user/entities/user.entity';
 import { Wallet } from '../modules/wallet/entities/wallet.entity';
 import { WalletTransaction } from '../modules/wallet/entities/wallet-transaction.entity';
 import { ParkingSession } from '../modules/sessions/entities/parking-session.entity';
+import { FavouriteParking } from '../modules/parking-locations/entities/favourite-parking.entity';
 
 export const getDatabaseConfig = (
   configService: ConfigService,
@@ -23,7 +24,7 @@ export const getDatabaseConfig = (
     return {
       type: 'postgres',
       url: dbUrl,
-      entities: [ParkingLocation, ParkingSlot, User, Wallet, WalletTransaction, ParkingSession],
+      entities: [ParkingLocation, ParkingSlot, User, Wallet, WalletTransaction, ParkingSession, FavouriteParking],
       synchronize: false,
       logging: nodeEnv === 'development',
       ssl: { rejectUnauthorized: false }, // Render yêu cầu SSL
@@ -39,7 +40,7 @@ export const getDatabaseConfig = (
     username: configService.get<string>('DB_USERNAME', 'postgres'),
     password: configService.get<string>('DB_PASSWORD', 'password'),
     database: configService.get<string>('DB_NAME', 'spa_parking'),
-    entities: [ParkingLocation, ParkingSlot, User, Wallet, WalletTransaction, ParkingSession],
+    entities: [ParkingLocation, ParkingSlot, User, Wallet, WalletTransaction, ParkingSession, FavouriteParking],
     synchronize: nodeEnv === 'development',
     logging: true,
   };

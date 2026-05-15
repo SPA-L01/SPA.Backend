@@ -83,6 +83,9 @@ export class ParkingLocation {
   @Column({ name: 'is_24h', default: false })
   is24h: boolean;
 
+  @Column({ name: 'view_count', default: 0 })
+  viewCount: number;
+
   @CreateDateColumn({ name: 'created_at' })
   createdAt: Date;
 
