@@ -8,6 +8,7 @@ import { WalletTransaction } from '../modules/wallet/entities/wallet-transaction
 import { ParkingSession } from '../modules/sessions/entities/parking-session.entity';
 import { FavouriteParking } from '../modules/parking-locations/entities/favourite-parking.entity';
 import { SavedParkingSpot, SavedParkingPhoto } from '../modules/parking-locations/entities/saved-parking-spot.entity';
+import { Survey } from '../modules/survey/entities/survey.entity';
 
 export const getDatabaseConfig = (
   configService: ConfigService,
@@ -35,6 +36,7 @@ export const getDatabaseConfig = (
         FavouriteParking,
         SavedParkingSpot,
         SavedParkingPhoto,
+        Survey,
       ],
       synchronize: false,
       logging: nodeEnv === 'development',
@@ -61,6 +63,7 @@ export const getDatabaseConfig = (
       FavouriteParking,
       SavedParkingSpot,
       SavedParkingPhoto,
+      Survey,
     ],
     synchronize: nodeEnv === 'development',
     logging: true,

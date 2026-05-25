@@ -12,9 +12,24 @@ services:
         fromDatabase:
           name: spa-parking-db
           property: connectionString
+      - key: FIREBASE_ANDROID_APP_ID
+        value: 1:386378665942:android:8bc6101051f56fd5e11e77
+      - key: FIREBASE_ANDROID_API_SECRET
+        value: u559lMdySsWuyjI5VxBrLw
+      - key: FIREBASE_IOS_APP_ID
+        value: 1:386378665942:ios:5036c8ae548bfa20e11e77
+      - key: FIREBASE_IOS_API_SECRET
+        value: 03fVYAxASw6qDUT6LIxADw
+      - key: JWT_SECRET
+        value: spa_jwt_secret_change_in_production
+      - key: REFRESH_JWT_SECRET
+        value: spa_refresh_jwt_secret_change_in_production
+      - key: PORT
+        value: 10000
 
 databases:
   - name: spa-parking-db
     plan: free # Sử dụng gói miễn phí
     databaseName: spa_parking
     user: spa_user
+
