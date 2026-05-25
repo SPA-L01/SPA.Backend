@@ -42,7 +42,7 @@ export class SavedParkingService {
           ...data,
           userId,
           localId,
-        });
+        } as Partial<SavedParkingSpot>);
         spot = await this.spotRepo.save(spot);
         
         // Handle photos if any
