@@ -9,6 +9,7 @@ import { ParkingSession } from '../modules/sessions/entities/parking-session.ent
 import { FavouriteParking } from '../modules/parking-locations/entities/favourite-parking.entity';
 import { SavedParkingSpot, SavedParkingPhoto } from '../modules/parking-locations/entities/saved-parking-spot.entity';
 import { Survey } from '../modules/survey/entities/survey.entity';
+import { AnalyticsEvent } from '../modules/analytics/entities/analytics-event.entity';
 
 export const getDatabaseConfig = (
   configService: ConfigService,
@@ -37,6 +38,7 @@ export const getDatabaseConfig = (
         SavedParkingSpot,
         SavedParkingPhoto,
         Survey,
+        AnalyticsEvent,
       ],
       synchronize: false,
       logging: nodeEnv === 'development',
@@ -64,6 +66,7 @@ export const getDatabaseConfig = (
       SavedParkingSpot,
       SavedParkingPhoto,
       Survey,
+      AnalyticsEvent,
     ],
     synchronize: nodeEnv === 'development',
     logging: true,

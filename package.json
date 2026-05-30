@@ -22,7 +22,9 @@
     "seed:surveys": "ts-node -r tsconfig-paths/register src/database/seeds/surveys.seed.ts",
     "seed:firebase": "ts-node -r tsconfig-paths/register src/database/seeds/firebase-analytics.seed.ts",
     "seed:realtime": "ts-node -r tsconfig-paths/register src/database/seeds/send-realtime.ts",
-    "seed:debug": "ts-node -r tsconfig-paths/register src/database/seeds/debug-firebase.ts"
+    "seed:debug": "ts-node -r tsconfig-paths/register src/database/seeds/debug-firebase.ts",
+    "report:analytics": "ts-node -r tsconfig-paths/register src/database/seeds/generate-analytics-report.ts",
+    "migrate:analytics": "ts-node -r tsconfig-paths/register src/database/seeds/create-analytics-table.ts"
   },
   "dependencies": {
     "@nestjs/cli": "^10.0.0",
