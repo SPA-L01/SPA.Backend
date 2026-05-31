@@ -9,9 +9,7 @@ services:
       - key: NODE_ENV
         value: production
       - key: DATABASE_URL
-        fromDatabase:
-          name: spa-parking-db
-          property: connectionString
+        sync: false # Nhập URL của Supabase thủ công trên giao diện Render
       - key: FIREBASE_ANDROID_APP_ID
         value: 1:386378665942:android:8bc6101051f56fd5e11e77
       - key: FIREBASE_ANDROID_API_SECRET
@@ -27,9 +25,4 @@ services:
       - key: PORT
         value: 10000
 
-databases:
-  - name: spa-parking-db
-    plan: free # Sử dụng gói miễn phí
-    databaseName: spa_parking
-    user: spa_user
 
