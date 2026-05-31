@@ -22,11 +22,17 @@ export const getDatabaseConfig = (
   if (dbUrl) {
     // Rút gọn URL để log (ẩn thông tin nhạy cảm)
     const maskedUrl = dbUrl.replace(/\/\/.*@/, '//****:****@');
-    console.log(`[DB Config] Connecting via DATABASE_URL: ${maskedUrl}`);
+    console.log(`[DB Config] Connecting via parsed DATABASE_URL: ${maskedUrl}`);
+
+    const parsed = new URL(dbUrl);
 
     return {
       type: 'postgres',
-      url: dbUrl,
+      host: parsed.hostname,
+      port: parseInt(parsed.port || '5432', 10),
+      username: decodeURIComponent(parsed.username),
+      password: decodeURIComponent(parsed.password),
+      database: parsed.pathname.replace(/^\//, ''),
       entities: [
         ParkingLocation,
         ParkingSlot,
